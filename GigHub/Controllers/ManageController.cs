@@ -3,10 +3,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using GigHub.Core.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using GigHub.Models;
 
 namespace GigHub.Controllers
 {
@@ -32,9 +32,9 @@ namespace GigHub.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -56,12 +56,12 @@ namespace GigHub.Controllers
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
-                : "";
+                    : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+                        : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
+                            : message == ManageMessageId.Error ? "An error has occurred."
+                                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
+                                    : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                                        : "";
 
             var userId = User.Identity.GetUserId();
             var model = new IndexViewModel
@@ -195,9 +195,7 @@ namespace GigHub.Controllers
         }
 
         //
-        // POST: /Manage/RemovePhoneNumber
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        // GET: /Manage/RemovePhoneNumber
         public async Task<ActionResult> RemovePhoneNumber()
         {
             var result = await UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null);
@@ -282,8 +280,8 @@ namespace GigHub.Controllers
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : "";
+                    : message == ManageMessageId.Error ? "An error has occurred."
+                        : "";
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)
             {
@@ -333,7 +331,7 @@ namespace GigHub.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -384,6 +382,6 @@ namespace GigHub.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }
